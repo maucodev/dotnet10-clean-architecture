@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Bookify.Domain.Apartments;
+namespace Bookify.Domain.Shared;
 
 public record Currency
 {
