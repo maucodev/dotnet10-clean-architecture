@@ -57,7 +57,7 @@ public sealed class Booking : Entity
 
     public DateTime CancelledOnUtc { get; private set; }
 
-    public static Booking Reserve(
+    public static Result<Booking> Reserve(
         Apartment apartment,
         Guid userId,
         DateRange duration,
@@ -68,10 +68,8 @@ public sealed class Booking : Entity
             apartment,
             duration);
 
-        var bookingId = Guid.NewGuid();
-
         var booking = new Booking(
-            bookingId,
+            id: Guid.NewGuid(),
             apartment.Id,
             userId,
             duration,
@@ -82,7 +80,7 @@ public sealed class Booking : Entity
             BookingStatus.Reserved,
             utcNow);
 
-        booking.RaiseDomainEvent(new BookingReservedDomainEvent(bookingId));
+        booking.RaiseDomainEvent(new BookingReservedDomainEvent(booking.Id));
 
         apartment.LastBookedOnUtc = utcNow;
 

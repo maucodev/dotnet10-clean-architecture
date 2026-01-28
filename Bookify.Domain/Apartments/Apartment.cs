@@ -38,7 +38,7 @@ public sealed class Apartment : Entity
 
     public List<Amenity> Amenities { get; private set; }
 
-    public static Apartment Create(
+    public static Result<Apartment> Create(
         Name name,
         Description description,
         Address address,

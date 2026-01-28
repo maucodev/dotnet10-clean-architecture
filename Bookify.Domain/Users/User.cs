@@ -23,7 +23,7 @@ public sealed class User : Entity
 
     public Email Email { get; private set; }
 
-    public static User Create(
+    public static Result<User> Create(
         FirstName firstName,
         LastName lastName,
         Email email)
