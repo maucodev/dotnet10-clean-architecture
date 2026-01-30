@@ -1,11 +1,17 @@
-﻿using System;
-using Bookify.Application.Abstractions.Clock;
+﻿using Bookify.Application.Abstractions.Clock;
+using Bookify.Application.Abstractions.Data;
 using Bookify.Application.Abstractions.Email;
+using Bookify.Domain.Abstractions;
+using Bookify.Domain.Apartments.Repository;
+using Bookify.Domain.Bookings.Repository;
+using Bookify.Domain.Users.Repository;
 using Booking.Infrastructure.Clock;
 using Booking.Infrastructure.Email;
+using Booking.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace Booking.Infrastructure;
 
@@ -29,6 +35,14 @@ public static class DependencyInjection
                 .UseNpgsql(connectionString)
                 .UseSnakeCaseNamingConvention();
         });
+
+        services.AddScoped<IUserRepository, UserRepository>();
+
+        services.AddScoped<IApartmentRepository, ApartmentRepository>();
+
+        services.AddScoped<IBookingRepository, BookingRepository>();
+
+        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
 
         return services;
     }
